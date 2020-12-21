@@ -4,7 +4,7 @@ const uuidv4 = require("uuid").v4;
 
 /**
  * @description
- * Write a random waifu image file on disk. Default to an uuid filename & root path (of parent process).
+ * Write a random waifu image file on file system. Default to an uuid filename & root path (of parent process).
  * You can also pass an option Object with custom 'name' and 'path' values.
  *
  * @param {Object} options - OPTIONAL: pass Option object as parameter
@@ -13,11 +13,11 @@ const uuidv4 = require("uuid").v4;
  * @returns {Promise.<Error|0>}
  *    A promise that will either Resolve with 0 when file is successfully written, or Reject Error object otherwise.
  * @example
- *     waifuGenerator({path: "/images", filename:"megumin"})
+ *     generateWaifu({path: "/images", filename:"megumin"})
  *       .then(res => console.log(res)) // 0
  *       .catch(err => console.error(err))
  */
-const generateRandomImage = async ({ filename = null, path = null }) =>
+const generateWaifu = async ({ filename = null, path = null }) =>
   new Promise((resolve, reject) => {
     const randomNumber = Math.floor(Math.random() * 100000);
     const imgSource = `https://www.thiswaifudoesnotexist.net/example-${randomNumber}.jpg`;
@@ -44,4 +44,4 @@ const generateRandomImage = async ({ filename = null, path = null }) =>
     });
   });
 
-module.exports = generateRandomImage;
+module.exports = generateWaifu;
