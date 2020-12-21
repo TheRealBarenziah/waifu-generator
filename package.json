@@ -1,0 +1,22 @@
+{
+  "name": "waifu-generator",
+  "version": "0.0.1",
+  "description": "Scrap random anime girls from thiswaifudoesnotexist.net",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "waifu-generator",
+    "nodejs",
+    "webscrap",
+    "generator",
+    "test",
+    "waifu"
+  ],
+  "author": "TheRealBarenziah",
+  "license": "SEE LICENSE IN TARGARIEN_UNLICENSE",
+  "dependencies": {
+    "uuid": "^8.3.2"
+  }
+}
