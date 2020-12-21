@@ -15,7 +15,7 @@
     "waifu"
   ],
   "author": "TheRealBarenziah",
-  "license": "SEE LICENSE IN TARGARIEN_UNLICENSE",
+  "license": "SEE LICENSE IN TARGARYEN_UNLICENSE",
   "dependencies": {
     "uuid": "^8.3.2"
   }

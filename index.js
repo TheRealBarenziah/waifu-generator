@@ -2,19 +2,34 @@ const https = require('https');
 const fs = require('fs');
 const uuidv4 = require("uuid").v4;
 
-const generateRandomImage = async ({ name = null, path = null }) =>
+/**
+ * @description
+ * Write a random waifu image file on disk. Default to an uuid filename & root path (of parent process).
+ * You can also pass an option Object with custom 'name' and 'path' values.
+ *
+ * @param {Object} options - OPTIONAL: pass Option object as parameter
+ * @param {string} options.filename - Pass some string to chose an arbitrary filename
+ * @param {string} options.path - Pass some path (relative to parent process). Ex: './__TESTS__/images'
+ * @returns {Promise.<Error|0>}
+ *    A promise that will either Resolve with 0 when file is successfully written, or Reject Error object otherwise.
+ * @example
+ *     waifuGenerator({path: "/images", filename:"megumin"})
+ *       .then(res => console.log(res)) // 0
+ *       .catch(err => console.error(err))
+ */
+const generateRandomImage = async ({ filename = null, path = null }) =>
   new Promise((resolve, reject) => {
     const randomNumber = Math.floor(Math.random() * 100000);
     const imgSource = `https://www.thiswaifudoesnotexist.net/example-${randomNumber}.jpg`;
 
     const handleOptions = () => {
-      if (name && path) {
-        return `${path}/${name}.jpg`
+      if (filename && path) {
+        return `${path}/${filename}.jpg`
       }
-      else if (name && !path) {
-        return `${name}.jpg`
+      else if (filename && !path) {
+        return `${filename}.jpg`
       }
-      else if (!name && path) {
+      else if (!filename && path) {
         return `${path}/${randomNumber}_${uuidv4()}.jpg`
       }
       else {
@@ -28,3 +43,5 @@ const generateRandomImage = async ({ name = null, path = null }) =>
       res.on("end", () => resolve(0))
     });
   });
+
+module.exports = generateRandomImage;
