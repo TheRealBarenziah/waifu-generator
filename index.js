@@ -45,11 +45,4 @@ const generateWaifu = async (options) =>
     });
   });
 
-//module.exports = generateWaifu;
-
-const options = {
-  // filename: "sugoi_kawaii",
-  // path: "./__TESTS__/images"
-}
-
-generateWaifu(options)
+module.exports = generateWaifu;

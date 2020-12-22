@@ -9,7 +9,7 @@ Write random anime girl pictures on file system, using Nodejs, thanks to <a href
 # Usecase ?
 You need to generate random pictures files for testing purposes, but [js-image-generator](https://www.npmjs.com/package/js-image-generator) is definitely too efficient and boring for the job?  
   
-Look no further! TheRealBarenziah(tm) brings you this StyleGAN2-empowered[*](#BTW), uwu-compliant, industrial grade yet unlicensed module.  
+Look no further! TheRealBarenziah(tm) brings you this StyleGAN2-empowered[*](#BTW),industrial grade, uwu-compliant yet unlicensed module.  
 
 # Compatibility
 **node >= 8** (we're using [fs](https://nodejs.org/api/fs.html) and [promises](https://node.green/))
