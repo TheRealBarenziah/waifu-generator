@@ -1,6 +1,6 @@
 {
   "name": "waifu-generator",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Scrap random anime girls from thiswaifudoesnotexist.net",
   "main": "index.js",
   "scripts": {
