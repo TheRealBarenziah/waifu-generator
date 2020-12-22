@@ -6,6 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheRealBarenziah/waifu-generator"
+  },
   "keywords": [
     "waifu-generator",
     "nodejs",
@@ -18,5 +22,9 @@
   "license": "SEE LICENSE IN TARGARYEN_UNLICENSE",
   "dependencies": {
     "uuid": "^8.3.2"
+  },
+  "homepage": "https://github.com/TheRealBarenziah/waifu-generator#readme",
+  "bugs": {
+    "url": "https://github.com/TheRealBarenziah/waifu-generator/issues"
   }
 }
