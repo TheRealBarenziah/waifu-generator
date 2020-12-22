@@ -17,8 +17,9 @@ const uuidv4 = require("uuid").v4;
  *       .then(res => console.log(res)) // 0
  *       .catch(err => console.error(err))
  */
-const generateWaifu = async ({ filename = null, path = null }) =>
+const generateWaifu = async (options) =>
   new Promise((resolve, reject) => {
+    const { filename = null, path = null } = { ...options }
     const randomNumber = Math.floor(Math.random() * 100000);
     const imgSource = `https://www.thiswaifudoesnotexist.net/example-${randomNumber}.jpg`;
 
@@ -44,4 +45,11 @@ const generateWaifu = async ({ filename = null, path = null }) =>
     });
   });
 
-module.exports = generateWaifu;
+//module.exports = generateWaifu;
+
+const options = {
+  // filename: "sugoi_kawaii",
+  // path: "./__TESTS__/images"
+}
+
+generateWaifu(options)
