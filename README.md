@@ -25,13 +25,13 @@ const generateWaifu = require("waifu-generator");
 
 generateWaifu();
 ```  
-Back in terminal:  
+Back in terminal (for the example):  
 ```bash
 node ./generate.js
-# ...will write a random image file in pwd
-# filename will be named following this pattern: "$imageId_$uuid.jpg"
-# where $imageId is the image id for thiswaifudoesnotexist.net
-# and $uuid, an uuidv4 generated on the fly
+# ...will write a random image file in cwd (current working directory).
+# The filename will follow this pattern: "$imageId_$uuid.jpg",
+#     where $imageId is the image id for thiswaifudoesnotexist.net,
+#     and $uuid is some uuidv4 generated on the fly
 ```  
 ### Case 2 : providing an option object
 In your `generate.js` file : 
@@ -48,14 +48,18 @@ generateWaifu(options);
 Back in terminal:  
 ```bash
 node ./generate.js
-# ...will write a random image file in ./__TESTS__/images
-# and its filename will be "sugoi_kawaii.jpg" 
+# ...will write a random image file in "./__TESTS__/images",
+#     with "sugoi_kawaii.jpg" as its filename
 ```  
 NB: `options` object is facultative; `options.filename` and `options.path` [default to null](https://github.com/TheRealBarenziah/waifu-generator/blob/senpai/index.js#L22). Make sure you avoid typos! (`options.fileName` won't work)  
 
 You can also pass a single option: providing a `filename` but no `path`, the `path` will default to root.  
 Providing a valid `path` but no `filename`, `filename` will be generated using the standard pattern.  
 
+# Cleaning your mess
+This unbloated module doesn't support file deletion. To do that, it's your responsibility, as a developer to chose between using the awesome [fs API](https://www.geeksforgeeks.org/node-js-fs-unlink-method/), [higher level libs](https://www.npmjs.com/package/rimraf), or [OS level operation](https://linux.die.net/man/1/rm).  
+Take advantage of this module being unlicensed, fork away and write the best solution for your specific need !
+
 # BTW
 Please don't read this seriously. This JavaScript does little more than exploiting the awesome work that was done on [thiswaifudoesnotexist](https://www.thiswaifudoesnotexist.net), so please pay them a visit!  
-Inspect the elements to see what inspired this module, and follow the urls in their footer to learn about what is actually going on, and explore other weeb-friendly implementations of StyleGAN!  
+Inspect the elements to see what inspired this module, and follow the urls in their footer to learn about what is actually going on, and explore other weeb-friendly implementations of StyleGAN!
