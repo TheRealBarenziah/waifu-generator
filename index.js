@@ -38,11 +38,17 @@ const generateWaifu = async (options) =>
       }
     }
 
-    return https.get(imgSource, (res) => {
-      res.on("error", (e) => reject(e))
-      res.pipe(fs.createWriteStream(handleOptions()));
-      res.on("end", () => resolve(0))
+    return https.get(imgSource, async (res) => {
+      const options = handleOptions();
+      res.on("error", (e) => reject(e));
+      res.pipe(fs.createWriteStream(options));
+      res.on("end", async () => {
+        const response = await fs.promises.readFile(`./${options}`, { encoding: "base64" })
+        console.log("response? ", response)
+        return resolve(response)
+      }
+      );
     });
-  });
+  })
 
-module.exports = generateWaifu;
+generateWaifu();
