@@ -94,12 +94,14 @@ const yourCustomFunc = async () => {
 yourCustomFunc();
 ```  
   
-Activating `skipFs` will (reasonably) make the other options irrelevant.   
+**NB: Activating `skipFs` will (indeed) make the other options irrelevant !**  
 
 # Clean your mess
 This unbloated module doesn't support file deletion. To do that, it's your responsibility, as a developer, to chose the correct approach between using the awesome [fs API](https://www.geeksforgeeks.org/node-js-fs-unlink-method/), using [higher level libs](https://www.npmjs.com/package/rimraf), or going for [OS level operation](https://linux.die.net/man/1/rm).  
-  
-Take advantage of this module being unlicensed: please fork away and write the best solution for your specific need !
+
+Of course you're also free to skip the hassle by using the `skipFs` parameter !  
+
+Take advantage of this module being unlicensed: please fork away and write the best solution for your specific need :)
 
 # BTW
 Please don't read this seriously. This JavaScript does little more than exploiting the awesome work that was done on [thiswaifudoesnotexist](https://www.thiswaifudoesnotexist.net), so please pay them a visit and click their footer links :)  
