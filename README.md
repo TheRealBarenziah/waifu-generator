@@ -27,15 +27,24 @@ In your `generate.js` file :
 ```javascript
 const generateWaifu = require("waifu-generator");
 
-generateWaifu();
+generateWaifu()
+  .then(res => console.log(res))
+  .catch(e => console.error(e))
 ```  
 Back in terminal (for the example):  
 ```bash
 node ./generate.js
 # ...will write a random image file in cwd (current working directory).
-# The filename will follow this pattern: "$imageId_$uuid.jpg",
+# The filename will follow the pattern "$imageId_$uuid.jpg",
 #     where $imageId is the image id for thiswaifudoesnotexist.net,
 #     and $uuid is some uuidv4 generated on the fly
+
+data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=
+
+# Since we log the return value with .then(res => console.log(res))
+# , a base64 string representation of our image will be printed in stdout.
+# It is facultative but may come in handy. Check the legitness of the string 
+# by copypasting it into your favorite browser, or whatever. Just know it's there !
 ```  
 ### Case 2 : providing an option object
 In your `generate.js` file : 
@@ -53,10 +62,35 @@ Back in terminal:
 ```bash
 node ./generate.js
 # ...will write a random image file in "./__TESTS__/images",
-#     with "sugoi_kawaii.jpg" as its filename
+#     with "sugoi_kawaii.jpg" as its filename.
+# No output in stdout since we didn't explicitely .then(res => console.log(res))
 ```  
+
+### Case 2.5: skip fs call
+In some usecases, you don't want your tests to include I/O operations (mainly, when performance is a requirement). In that case, you can opt to skip the call to filesystem entierely, leaving you with the bare base64 string ready to be allocated.  
+Simple example:  
+```javascript
+const generateWaifu = require("waifu-generator");
+
+const yourCustomFunc = async () => {
+  this.base64waifu = "";
+
+  await generateWaifu({ skipFs: true })
+    .then(res => this.base64waifu = res)
+    .catch(e => e)
+
+  const output = this.base64waifu.toString().toString().toString(); 
+  // Dumb example of arbitrary filth you're free to inflict to your base64 waifu here
+
+  console.log(output); // printing stuff as promise is resolved already
+  return output;
+};
+
+yourCustomFunc();
+```  
+
 **NB: `options` object is facultative; `options.filename` and `options.path` [default to null](https://github.com/TheRealBarenziah/waifu-generator/blob/senpai/index.js#L22)**.  
-Make sure you avoid typos! (`options.fileName` won't work)  
+Make sure to avoid typos! (`options.fileName` won't work)  
 
 **You can also pass a single option:** providing a `filename` but no `path`, the `path` will default to root.  
 Providing a valid `path` but no `filename`, `filename` will be generated using the standard pattern.  
