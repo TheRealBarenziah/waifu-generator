@@ -42,9 +42,9 @@ node ./generate.js
 data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=
 
 # Since we log the return value with .then(res => console.log(res))
-# , a base64 string representation of our image will be printed in stdout.
-# It is facultative but may come in handy. Check the legitness of the string 
-# by copypasting it into your favorite browser, or whatever. Just know it's there !
+# a base64 string representation of our image is printed in stdout.
+# It is facultative but may come in handy. Check the string by copypasting it into your favorite browser, 
+# or whatever. Just know it's there, in the resolve value !
 ```  
 ### Case 2 : providing an option object
 In your `generate.js` file : 
@@ -63,12 +63,17 @@ Back in terminal:
 node ./generate.js
 # ...will write a random image file in "./__TESTS__/images",
 #     with "sugoi_kawaii.jpg" as its filename.
-# No output in stdout since we didn't explicitely .then(res => console.log(res))
+# No output in stdout since we didn't explicitely '.then(res => console.log(res));'
 ```  
+**NB: `options` object is facultative; `options.filename` and `options.path` [default to null](https://github.com/TheRealBarenziah/waifu-generator/blob/senpai/index.js#L22), while `options.skipFs` default to false**.  
 
-### Case 2.5: skip fs call
-In some usecases, you don't want your tests to include I/O operations (mainly, when performance is a requirement). In that case, you can opt to skip the call to filesystem entierely, leaving you with the bare base64 string ready to be allocated.  
-Simple example:  
+**You can pass a single option:** providing a `filename` but no `path`, the `path` will default to root.  
+Providing a valid `path` but no `filename`, `filename` will be generated using standard pattern.  
+
+### Case 2.5: skip the fs call
+Sometimes, you don't want your tests doing I/O operations (mainly, when needing performance). In that case, you can chose to skip the call to filesystem entierely, leaving you to work with pure base64 strings, ready to be allocated.  
+  
+Barebone example:  
 ```javascript
 const generateWaifu = require("waifu-generator");
 
@@ -82,18 +87,14 @@ const yourCustomFunc = async () => {
   const output = this.base64waifu.toString().toString().toString(); 
   // Dumb example of arbitrary filth you're free to inflict to your base64 waifu here
 
-  console.log(output); // printing stuff as promise is resolved already
+  console.log(output); // printing stuff, as promise is resolved already
   return output;
 };
 
 yourCustomFunc();
 ```  
-
-**NB: `options` object is facultative; `options.filename` and `options.path` [default to null](https://github.com/TheRealBarenziah/waifu-generator/blob/senpai/index.js#L22)**.  
-Make sure to avoid typos! (`options.fileName` won't work)  
-
-**You can also pass a single option:** providing a `filename` but no `path`, the `path` will default to root.  
-Providing a valid `path` but no `filename`, `filename` will be generated using the standard pattern.  
+  
+Activating `skipFs` will (reasonably) make the other options irrelevant.   
 
 # Clean your mess
 This unbloated module doesn't support file deletion. To do that, it's your responsibility, as a developer, to chose the correct approach between using the awesome [fs API](https://www.geeksforgeeks.org/node-js-fs-unlink-method/), using [higher level libs](https://www.npmjs.com/package/rimraf), or going for [OS level operation](https://linux.die.net/man/1/rm).  
