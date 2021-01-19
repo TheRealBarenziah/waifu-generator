@@ -1,6 +1,6 @@
 # waifu-generator
 <p align="center">
-  <img width="300" src="https://i.ibb.co/VWHXh3F/javascriptchan.png">
+  [<img width="300" src="https://i.ibb.co/VWHXh3F/javascriptchan.png">](https://www.deviantart.com/icw-numen/art/JavaScript-chan-762039250)
 </p>
 <p align="center">
 Write random anime girl pictures on file system, using Nodejs, thanks to <a href="https://www.thiswaifudoesnotexist.net">thiswaifudoesnotexist.net</a>
