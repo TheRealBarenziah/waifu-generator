@@ -1,6 +1,8 @@
 # waifu-generator
 <p align="center">
-  [<img width="300" src="https://i.ibb.co/VWHXh3F/javascriptchan.png">](https://www.deviantart.com/icw-numen/art/JavaScript-chan-762039250)
+  <a href="https://www.deviantart.com/icw-numen/art/JavaScript-chan-762039250">  
+  <img width="300" src="https://i.ibb.co/VWHXh3F/javascriptchan.png">
+  </a>
 </p>
 <p align="center">
 Write random anime girl pictures on file system, using Nodejs, thanks to <a href="https://www.thiswaifudoesnotexist.net">thiswaifudoesnotexist.net</a>
@@ -11,7 +13,7 @@ Write random anime girl pictures on file system, using Nodejs, thanks to <a href
 [![Known Vulnerabilities](https://snyk.io/test/github/TheRealBarenziah/waifu-generator/badge.svg?targetFile=package.json)](https://snyk.io/test/github/TheRealBarenziah/waifu-generator?targetFile=package.json)
 
 # Usecase ?
-You need to generate random pngs for testing purposes, but [js-image-generator](https://www.npmjs.com/package/js-image-generator) is definitely too efficient and boring for the job?  
+You need to generate random pictures files for testing purposes, but [js-image-generator](https://www.npmjs.com/package/js-image-generator) is definitely too efficient and boring for the job?  
   
 Look no further! TheRealBarenziah(tm) brings you this StyleGAN2-empowered[*](#BTW),industrial grade, uwu-compliant, yet unlicensed module!  
 
@@ -35,7 +37,7 @@ Back in terminal (for the example):
 ```bash
 node ./generate.js
 # ...will write a random image file in cwd (current working directory).
-# The filename will follow the pattern "$imageId_$uuid.png",
+# The filename will follow the pattern "$imageId_$uuid.jpg",
 #     where $imageId is the image id for thiswaifudoesnotexist.net,
 #     and $uuid is some uuidv4 generated on the fly
 
@@ -43,8 +45,8 @@ data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2
 
 # Since we log the return value with .then(res => console.log(res))
 # a base64 string representation of our image is printed in stdout.
-# It is facultative but may come in handy. Check the string by copypasting it into 
-# your favorite browser or whatever. Just know it's there, in the resolve value !
+# It is facultative but may come in handy. Check the string by copypasting it into your favorite browser, 
+# or whatever. Just know it's there, in the resolve value !
 ```  
 ### Case 2 : providing an option object
 In your `generate.js` file : 
@@ -62,7 +64,8 @@ Back in terminal:
 ```bash
 node ./generate.js
 # ...will write a random image file in "./__TESTS__/images",
-#     with "sugoi_kawaii.png" as its filename.
+#     with "sugoi_kawaii.jpg" as its filename.
+# No output in stdout since we didn't explicitely '.then(res => console.log(res));'
 ```  
 **NB: `options` object is facultative; `options.filename` and `options.path` [default to null](https://github.com/TheRealBarenziah/waifu-generator/blob/senpai/index.js#L22), while `options.skipFs` default to false**.  
 
