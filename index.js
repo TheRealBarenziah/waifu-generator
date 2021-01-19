@@ -22,7 +22,7 @@ const uuidv4 = require("uuid").v4;
 
 const generateWaifu = async (options) =>
   new Promise((resolve, reject) => {
-    const { filename = null, path = null, skipFs = false } = { ...options }
+    const { filename = null, path = null, skipFs = false } = { ...options };
     const randomNumber = Math.floor(Math.random() * 100000);
     const imgSource = `https://www.thiswaifudoesnotexist.net/example-${randomNumber}.jpg`;
 
@@ -52,7 +52,7 @@ const generateWaifu = async (options) =>
           else {
             return `${randomNumber}_${uuidv4()}.png`
           }
-        }
+        };
 
         const options = handleOptions();
         res.on("error", (e) => reject(e));
@@ -62,8 +62,8 @@ const generateWaifu = async (options) =>
           return resolve(`data:image/png;base64,${base64str}`)
         }
         );
-      }
+      };
     });
-  })
+  });
 
-module.exports = generateWaifu;
+generateWaifu();
