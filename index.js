@@ -66,4 +66,4 @@ const generateWaifu = async (options) =>
     });
   });
 
-generateWaifu();
+module.exports = generateWaifu;

@@ -43,9 +43,9 @@ node ./generate.js
 
 data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=
 
-# Since we log the return value with .then(res => console.log(res))
+# Since we logged the return value with .then(res => console.log(res))
 # a base64 string representation of our image is printed in stdout.
-# It is facultative but may come in handy. You can check the string by copypasting it 
+# It is facultative, but may come in handy. You can check the string by copypasting it 
 # into your favorite browser, or whatever. Just know it's there, in the resolve value !
 ```  
 ### Case 2 : providing an option object
@@ -66,15 +66,15 @@ node ./generate.js
 # ...will write a random image file in "./__TESTS__/images",
 #     with "sugoi_kawaii.png" as its filename.
 #
-# No output in stdout since we didn't explicitely '.then(res => console.log(res));'
+# No output since we didn't explicitely '.then(res => console.log(res));'
 ```  
-**NB: `options` object is facultative; `options.filename` and `options.path` [default to null](https://github.com/TheRealBarenziah/waifu-generator/blob/senpai/index.js#L22) and `options.skipFs` default to false**.  
+**NB: `options` object is facultative; `options.filename` and `options.path` default to null; `options.skipFs` default to false**.  
 
 **You can pass a single option:** providing a `filename` but no `path`, the `path` will default to root.  
 Providing a valid `path` but no `filename`, `filename` will be generated using standard pattern.  
 
 ### Case 2.5: skip the fs call
-Sometimes, you don't want your tests to do I/O operations (typically, when you're after performance). In that case, you can chose to skip the filesystem call entierely, leaving you to work with pure base64 strings, ready to be allocated.  
+Sometimes, you don't want your tests to do I/O operations (typically when you're after performance). In that case you can skip the filesystem call entierely, leaving you to work with pure base64 strings, ready to be allocated.  
   
 Barebone example:  
 ```javascript
@@ -88,9 +88,9 @@ const yourCustomFunc = async () => {
     .catch(e => e);
 
   const output = this.base64waifu.toString().toString().toString(); 
-  // Dumb example of arbitrary filth you're free to inflict to your base64 waifu here
+  // Example of arbitrary filth you're free to inflict to your base64 waifu here
 
-  console.log(output); // printing stuff, as promise is resolved already
+  console.log(output); // printing our stuff
   return output;
 };
 
@@ -102,7 +102,7 @@ yourCustomFunc();
 # Clean your mess
 This unbloated module doesn't support file deletion. To do that, it's your responsibility, as a developer, to chose the correct approach between using the awesome [fs API](https://www.geeksforgeeks.org/node-js-fs-unlink-method/), using [higher level libs](https://www.npmjs.com/package/rimraf), or going for [OS level operation](https://linux.die.net/man/1/rm).  
 
-Of course you're also free to skip the hassle by using the `skipFs` parameter !  
+..Of course you're also free to skip the hassle by using the `skipFs` parameter !  
 
 Take advantage of this module being unlicensed: please fork away and write the best solution for your specific need :)
 
