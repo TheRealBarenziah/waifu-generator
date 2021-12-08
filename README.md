@@ -24,6 +24,17 @@ Look no further! TheRealBarenziah(tm) brings you this StyleGAN2-empowered[*](#BT
 ```bash
 npm i --save-dev waifu-generator
 ```  
+
+**tl;dr** 
+- `options` object is facultative 
+- `options.filename` default to null
+- `options.path` default to null 
+- `options.skipFs` default to false; pass `true` to skip the fs.createWriteStream() call
+- `options.withoutPrefix` default to false; pass `true` to remove 'data:image/png;base64,' prefix from returned string
+- `options.mosaic` default to null; pass a *n* `number` in the 1-999 range to generate a mosaic that'll weight APPROXIMATELY *n*Mb
+
+## The Long Read
+
 ### Case 1 : default (no option object)
 In your `generate.js` file : 
 ```javascript
@@ -68,10 +79,6 @@ node ./generate.js
 #
 # No output since we didn't explicitely '.then(res => console.log(res));'
 ```  
-**NB: `options` object is facultative; `options.filename` and `options.path` default to null; `options.skipFs` default to false**.  
-
-**You can pass a single option:** providing a `filename` but no `path`, the `path` will default to root.  
-Providing a valid `path` but no `filename`, `filename` will be generated using standard pattern.  
 
 ### Case 2.5: skip the fs call
 Sometimes, you don't want your tests to do I/O operations (typically when you're after performance). In that case you can skip the filesystem call entierely, leaving you to work with pure base64 strings, ready to be allocated.  
@@ -81,13 +88,9 @@ Barebone example:
 const generateWaifu = require("waifu-generator");
 
 const yourCustomFunc = async () => {
-  this.base64waifu = "";
+  const base64waifu = await generateWaifu({ skipFs: true });
 
-  await generateWaifu({ skipFs: true })
-    .then(res => this.base64waifu = res)
-    .catch(e => e);
-
-  const output = this.base64waifu.toString().toString().toString(); 
+  const output = base64waifu.toString().toString().toString(); 
   // Example of arbitrary filth you're free to inflict to your base64 waifu here
 
   console.log(output); // printing our stuff
@@ -97,7 +100,25 @@ const yourCustomFunc = async () => {
 yourCustomFunc();
 ```  
   
-**NB: Activating `skipFs` will (indeed) make the other options irrelevant !**  
+**NB: Activating `skipFs` will indeed make the path/filename options irrelevant !**  
+
+### Case 2.9: mosaic mode
+The pool of images being only 100000, with heavy use there's a chance you get duplicates.  
+Furthermore, you may need to generate BIG files; speaking for me, I needed to be able to generate >32Mb and >64Mb files.  
+This option will generate a mosaic of waifus so the possibilities becomes `100000`*`a lot`.  
+I know math, you can twust me uwu.  
+Enable by passing an integer **in the 1-999 range** like so:  
+
+```javascript
+const generateWaifu = require("waifu-generator");
+
+const options = {
+  mosaic: 33
+};
+
+generateWaifu(options);
+```  
+
 
 # Clean your mess
 This unbloated module doesn't support file deletion. To do that, it's your responsibility, as a developer, to chose the correct approach between using the awesome [fs API](https://www.geeksforgeeks.org/node-js-fs-unlink-method/), using [higher level libs](https://www.npmjs.com/package/rimraf), or going for [OS level operation](https://linux.die.net/man/1/rm).  

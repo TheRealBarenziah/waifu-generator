@@ -11,7 +11,7 @@ const uuidv4 = require("uuid").v4;
  * @param {string} options.filename - Pass some string to chose an arbitrary filename Ex: megumin
  * @param {string} options.path - Pass some path (relative to parent process). Ex: './__TESTS__/images'
  * @param {boolean} option.skipFs - Disable fs call; useful for working with RAM only. Care as it's making the other options irrelevant !
- * @param {boolean} option.withoutPrefix - Remove 'data:image/png;base64,' prefix before base64 data; default to false
+ * @param {boolean} options.prefix - Default to true; prefix false will truncate the human readable part in the return value (pure base64)
  * @returns {Promise.<Error|0>}
  *    A promise that will either Resolve with base64 string representation of the image when file is successfully written, 
  *    and otherwise Reject Error object.
@@ -21,9 +21,14 @@ const uuidv4 = require("uuid").v4;
  *       .catch(err => console.error(err))
  */
 
-const generateWaifu = async (options) =>
+export default async (options) =>
   new Promise((resolve, reject) => {
-    const { filename = null, path = null, skipFs = false, withoutPrefix = false } = { ...options };
+    const {
+      filename = null,
+      path = null,
+      skipFs = false,
+      prefix = true
+    } = { ...options }
     const randomNumber = Math.floor(Math.random() * 100000);
     const imgSource = `https://www.thiswaifudoesnotexist.net/example-${randomNumber}.jpg`;
 
@@ -34,7 +39,7 @@ const generateWaifu = async (options) =>
         let response = '';
         res.on("error", (e) => reject(e));
         res.on("data", (d) => response += d)
-        res.on("end", () => resolve(`${withoutPrefix ? "" : "data:image/png;base64,"}${response}`))
+        res.on("end", () => resolve(`${prefix ? "data:image/png;base64," : ""}${response}`))
       }
 
       else {
@@ -53,18 +58,16 @@ const generateWaifu = async (options) =>
           else {
             return `${randomNumber}_${uuidv4()}.png`
           }
-        };
+        }
 
         const options = handleOptions();
         res.on("error", (e) => reject(e));
         res.pipe(fs.createWriteStream(options));
         res.on("end", async () => {
           const base64str = await fs.promises.readFile(`./${options}`, { encoding: "base64" })
-          return resolve(`${withoutPrefix ? "" : "data:image/png;base64,"}${base64str}`)
+          return resolve(`data:image/png;base64,${base64str}`)
         }
         );
-      };
+      }
     });
-  });
-
-module.exports = generateWaifu;
+  })
