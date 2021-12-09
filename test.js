@@ -1,5 +1,6 @@
 const generateWaifu = require("./index")
 const mergeImages = require('merge-img');
+const mosaic = require("./mosaic")
 
 const x = async () => {
   const waifu1 = Buffer.from(await generateWaifu({ skipFs: true, withoutPrefix: true }), "base64")
@@ -24,4 +25,6 @@ const x = async () => {
 
 }
 
-x()
+//x()
+
+mosaic(10)

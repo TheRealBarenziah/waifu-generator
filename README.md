@@ -31,7 +31,7 @@ npm i --save-dev waifu-generator
 - `options.path` default to null 
 - `options.skipFs` default to false; pass `true` to skip the fs.createWriteStream() call
 - `options.withoutPrefix` default to false; pass `true` to remove 'data:image/png;base64,' prefix from returned string
-- `options.mosaic` default to null; pass a *n* `number` in the 1-999 range to generate a mosaic that'll weight APPROXIMATELY *n*Mb
+- `options.mosaic` default to null; pass a *n* `number` in the 1-999 range to generate a mosaic of *n* images
 
 ## The Long Read
 
@@ -103,11 +103,11 @@ yourCustomFunc();
 **NB: Activating `skipFs` will indeed make the path/filename options irrelevant !**  
 
 ### Case 2.9: mosaic mode
-The pool of images being only 100000, with heavy use there's a chance you get duplicates.  
-Furthermore, you may need to generate BIG files; speaking for me, I needed to be able to generate >32Mb and >64Mb files.  
+The pool of images being only 100000, there's a chance to get duplicates.  
+Also, you may need to generate BIG files; speaking for me, I needed to be able to generate >32Mb and >64Mb files.  
 This option will generate a mosaic of waifus so the possibilities becomes `100000`*`a lot`.  
-I know math, you can twust me uwu.  
-Enable by passing an integer **in the 1-999 range** like so:  
+I know math you can twust me uwu.  
+Enable this by passing an integer **in the 1-999 range** like so:  
 
 ```javascript
 const generateWaifu = require("waifu-generator");
