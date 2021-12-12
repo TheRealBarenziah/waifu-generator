@@ -1,37 +1,57 @@
-const generateWaifu = require("./index")
 const mergeImages = require('merge-img');
+const https = require('https');
+const Jimp = require('jimp');
+const promisify = require("util").promisify;
 
-const mosaic = async (number) => {
-  const value = Number(number);
-  if (typeof value !== "number") {
-    throw Error("options.mosaic value must be number !")
+const mosaic = async ({ pathOpts, skipFs, withoutPrefix, number, mergeImgOpts = {
+  direction: true,
+} }) => {
+  const opts = {
+    ...mergeImgOpts,
   }
-  if (value <= 0 || value > 999) {
-    throw Error("options.mosaic value must be in the 1-999 range !")
+  const value = parseInt(number, 10);
+  if (typeof value !== "number") {
+    throw Error("options.mosaic.number value must be number !")
+  }
+  if (value <= 0 || value > 99) {
+    throw Error("options.mosaic.number value must be in the 1-99 range !")
   }
 
   const promQueens = [];
 
   for (let i = 0; i < number; i++) {
-    promQueens.push(generateWaifu({ skipFs: true, withoutPrefix: true }))
+    const imgSource = `https://www.thiswaifudoesnotexist.net/example-${Math.floor(Math.random() * 100000)
+      }.jpg`;
+    const generate = () => new Promise((resolve, reject) => https.get(imgSource, (res) => {
+      res.setEncoding("base64")
+      let response = '';
+      res.on("error", (e) => reject(e));
+      res.on("data", (d) => response += d)
+      res.on("end", () => resolve(response))
+    }))
+    promQueens.push(generate())
   }
 
-  Promise.all(promQueens)
+  return Promise.all(promQueens)
     .then(b64Waifus => b64Waifus.map(b64Waifu => Buffer.from(b64Waifu, "base64")))
-    .then(async b64Waifus => {
-      await mergeImages(b64Waifus)
-        .then(img => {
-          img.write('tata.png', () => console.log('done'));
-        })
-        .catch(e => {
-          console.log("error nani  ", e)
-        })
-    })
+    .then(async b64Waifus => await mergeImages(b64Waifus, { ...opts })
+      .then(async img => {
+        if (!skipFs) {
+          await img.write(pathOpts)
+        }
+        // asyncGetBuffer: https://github.com/oliver-moran/jimp/issues/90#issuecomment-408650356
+        const getBufferAsync = promisify(img.getBuffer.bind(img));
+        const output = await getBufferAsync(Jimp.MIME_PNG)
+          .then(buffer => buffer.toString("base64"))
+        return withoutPrefix ? output : `data:image/png;base64,${output}`;
+      })
+      .catch(e => {
+        throw new Error("Error writing file:\n", e)
+      })
+    )
     .catch(e => {
-      throw Error("Error in promise.all :", e)
+      throw Error(e)
     })
-  console.log("number : ", number)
-  return number;
 }
 
 module.exports = mosaic;

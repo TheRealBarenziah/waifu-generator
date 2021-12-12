@@ -1,6 +1,7 @@
 const https = require('https');
 const fs = require('fs');
 const uuidv4 = require("uuid").v4;
+const mosaic = require('./mosaic');
 
 /**
  * @description
@@ -12,7 +13,8 @@ const uuidv4 = require("uuid").v4;
  * @param {string} options.path - Pass some path (relative to parent process). Ex: './__TESTS__/images'
  * @param {boolean} option.skipFs - Disable fs call; useful for working with RAM only. Care as it's making the other options irrelevant !
  * @param {boolean} option.withoutPrefix - Remove 'data:image/png;base64,' prefix before base64 data; default to false
- * @returns {Promise.<Error|0>}
+ * @param {Object} option.mosaic - Enable mosaic mode. See README for documentation
+ * @returns {Promise.<string|Error>}
  *    A promise that will either Resolve with base64 string representation of the image when file is successfully written, 
  *    and otherwise Reject Error object.
  * @example
@@ -26,8 +28,38 @@ const generateWaifu = async (options) =>
     const { filename = null, path = null, skipFs = false, withoutPrefix = false } = { ...options };
     const randomNumber = Math.floor(Math.random() * 100000);
     const imgSource = `https://www.thiswaifudoesnotexist.net/example-${randomNumber}.jpg`;
+    const handleOptions = () => {
+      if (filename && path) {
+        return `${path}/${filename}.png`
+      }
+      else if (filename && !path) {
+        return `${filename}.png`
+      }
+      else if (!filename && path) {
+        return `${path}/${randomNumber}_${uuidv4()}.png`
+      }
+      else {
+        return `${randomNumber}_${uuidv4()}.png`
+      }
+    };
+    // Mosaic mode
+    if (options) {
+      if (options.mosaic) {
+        return mosaic({
+          ...options,
+          pathOpts: handleOptions(),
+          number: options.mosaic.number,
+          mergeImgOpts: options.mosaic.options,
+        })
+          .then(res => {
+            resolve(res)
+          })
+          .catch(e => reject(e))
+      }
+    }
 
-    return https.get(imgSource, async (res) => {
+    // Standard mode
+    else return https.get(imgSource, async (res) => {
       if (skipFs) {
         // no call to filesystem; disregard other options
         res.setEncoding("base64")
@@ -39,22 +71,6 @@ const generateWaifu = async (options) =>
 
       else {
         // standard behaviour using fs; need to handle options
-
-        const handleOptions = () => {
-          if (filename && path) {
-            return `${path}/${filename}.png`
-          }
-          else if (filename && !path) {
-            return `${filename}.png`
-          }
-          else if (!filename && path) {
-            return `${path}/${randomNumber}_${uuidv4()}.png`
-          }
-          else {
-            return `${randomNumber}_${uuidv4()}.png`
-          }
-        };
-
         const options = handleOptions();
         res.on("error", (e) => reject(e));
         res.pipe(fs.createWriteStream(options));
