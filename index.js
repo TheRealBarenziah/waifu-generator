@@ -7,7 +7,6 @@ const mosaic = require('./mosaic');
  * @description
  * Write a random waifu image file on file system. Default to an uuid filename & root path (of parent process).
  * You can also pass an option Object with custom 'filename' and 'path' values.
- *
  * @param {Object} options - OPTIONAL: pass Option object as parameter
  * @param {string} options.filename - Pass some string to chose an arbitrary filename Ex: megumin
  * @param {string} options.path - Pass some path (relative to parent process). Ex: './__TESTS__/images'

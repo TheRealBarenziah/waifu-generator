@@ -4,7 +4,7 @@ const Jimp = require('jimp');
 const promisify = require("util").promisify;
 
 const mosaic = async ({ pathOpts, skipFs, withoutPrefix, number, mergeImgOpts = {
-  direction: true,
+  direction: false,
 } }) => {
   const opts = {
     ...mergeImgOpts,

@@ -31,7 +31,7 @@ npm i --save-dev waifu-generator
 - `options.path` default to null 
 - `options.skipFs` default to false; pass `true` to skip the fs.createWriteStream() call
 - `options.withoutPrefix` default to false; pass `true` to remove 'data:image/png;base64,' prefix from returned string
-- `options.mosaic` default to null; pass a *n* `number` in the 1-999 range to generate a mosaic of *n* images
+- `options.mosaic` default to null; enable to create a mosaic of waifus. [Infos here](#Mosaic)
 
 ## The Long Read
 
@@ -102,26 +102,41 @@ yourCustomFunc();
   
 **NB: Activating `skipFs` will indeed make the path/filename options irrelevant !**  
 
-### Case 2.9: mosaic mode
-The pool of images being only 100000, there's a chance to get duplicates.  
-Also, you may need to generate BIG files; speaking for me, I needed to be able to generate >32Mb and >64Mb files.  
-This option will generate a mosaic of waifus so the possibilities becomes `100000`*`a lot`.  
-I know math you can twust me uwu.  
-Enable this by passing an integer **in the 1-999 range** like so:  
-
+# Mosaic
+Available from 2.0.0 onward. Opt-in by defining `option.mosaic`:
+#### tl;dr
 ```javascript
-const generateWaifu = require("waifu-generator");
+const waifuGenerator = require("./index")
 
-const options = {
-  mosaic: 33
-};
-
-generateWaifu(options);
+waifuGenerator({
+  filename: "mosaic", // indeed compatible with other waifu-generator options
+  mosaic: {
+    number: 2, // mandatory; must be integer in 1-99 range
+    options: { // facultative merge-img option object
+      direction: true,
+      color: 0x000000
+    }
+  }
+})
 ```  
+#### Full story
+Made this a major release because it adds some bloat ([jimp](https://www.npmjs.com/package/jimp) + [merge-img](https://www.npmjs.com/package/merge-img) dependencies).  
+If you don't need this feature, you better stick to good ol' [1.1.1](https://www.npmjs.com/package/waifu-generator/v/1.1.1)  
+###### So why this update ?
+Initial pool of images being only 100000, there was a chance to get duplicates.  
+Also, I needed to be able to generate some FAT files (>32Mb and >64Mb) for my test suite.  
+This option will generate a mosaic of waifus so the possibilities becomes `100000` * `a lot`.  
+The `option.mosaic.number` param is **mandatory** and must be in the 1-99 range.  
+The `option.mosaic.options` is **optional**: it enable you to use [merge-img option object](https://www.npmjs.com/package/merge-img#mergeimgimages-options) in case you need it.  
+With this the possibilities becomes `100000` * `a lot` * `A LOT`.  
+I know math, you can twust this number owo. Example output with `mosaic.number = 3`:  
 
+<p align="center">
+  <img width="700" src="https://i.ibb.co/kMc3ZNM/66579-a5581238-2f1d-4221-96f2-ea38a3aa100f.png">
+</p>
 
 # Clean your mess
-This unbloated module doesn't support file deletion. To do that, it's your responsibility, as a developer, to chose the correct approach between using the awesome [fs API](https://www.geeksforgeeks.org/node-js-fs-unlink-method/), using [higher level libs](https://www.npmjs.com/package/rimraf), or going for [OS level operation](https://linux.die.net/man/1/rm).  
+This (somewhat unbloated) module doesn't support file deletion. To do that, it's your responsibility, as a developer, to chose the correct approach between using the awesome [fs API](https://www.geeksforgeeks.org/node-js-fs-unlink-method/), using [higher level libs](https://www.npmjs.com/package/rimraf), or going for [OS level operation](https://linux.die.net/man/1/rm).  
 
 ..Of course you're also free to skip the hassle by using the `skipFs` parameter !  
 
