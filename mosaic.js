@@ -1,6 +1,6 @@
 const mergeImages = require('merge-img-vwv');
 const https = require('https');
-const Jimp = require('jimp');
+const Jimp = require('./node_modules/jimp/dist'); // using merge-img dependency
 const promisify = require("util").promisify;
 
 const mosaic = async ({ pathOpts, skipFs, withoutPrefix, number, mergeImgOpts = {
