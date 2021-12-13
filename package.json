@@ -1,6 +1,6 @@
 {
   "name": "waifu-generator",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Scrap random anime girls from thiswaifudoesnotexist.net",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   "license": "SEE LICENSE IN TARGARYEN_UNLICENSE",
   "dependencies": {
     "jimp": "^0.16.1",
-    "merge-img": "^2.1.3",
+    "merge-img-vwv": "^2.1.5-up",
     "uuid": "^8.3.2"
   },
   "homepage": "https://github.com/TheRealBarenziah/waifu-generator#readme",

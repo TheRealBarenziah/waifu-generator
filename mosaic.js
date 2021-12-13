@@ -1,4 +1,4 @@
-const mergeImages = require('merge-img');
+const mergeImages = require('merge-img-vwv');
 const https = require('https');
 const Jimp = require('jimp');
 const promisify = require("util").promisify;
