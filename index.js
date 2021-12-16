@@ -56,9 +56,8 @@ const generateWaifu = async (options) =>
           .catch(e => reject(e))
       }
     }
-
     // Standard mode
-    else return https.get(imgSource, async (res) => {
+    return https.get(imgSource, async (res) => {
       if (skipFs) {
         // no call to filesystem; disregard other options
         res.setEncoding("base64")
