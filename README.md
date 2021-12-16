@@ -136,7 +136,7 @@ I know math, you can twust this number owo. Example output with `mosaic.number =
 </p>
 
 # Clean your mess
-This (somewhat unbloated) module doesn't support file deletion. To do that, it's your responsibility, as a developer, to chose the correct approach between using the awesome [fs API](https://www.geeksforgeeks.org/node-js-fs-unlink-method/), using [higher level libs](https://www.npmjs.com/package/rimraf), or going for [OS level operation](https://linux.die.net/man/1/rm).  
+This (somewhat) unbloated module doesn't support file deletion. To do that, it's your responsibility, as a developer, to chose the correct approach between using the awesome [fs API](https://www.geeksforgeeks.org/node-js-fs-unlink-method/), using [higher level libs](https://www.npmjs.com/package/rimraf), or going for [OS level operation](https://linux.die.net/man/1/rm).  
 
 ..Of course you're also free to skip the hassle by using the `skipFs` parameter !  
 
