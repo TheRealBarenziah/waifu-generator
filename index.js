@@ -2,6 +2,7 @@ const https = require('https');
 const fs = require('fs');
 const uuidv4 = require("uuid").v4;
 const mosaic = require('./mosaic');
+const macrophilia = require('./macrophilia');
 
 /**
  * @description
@@ -23,62 +24,65 @@ const mosaic = require('./mosaic');
  */
 
 const generateWaifu = async (options) =>
-  new Promise((resolve, reject) => {
-    const { filename = null, path = null, skipFs = false, withoutPrefix = false } = { ...options };
-    const randomNumber = Math.floor(Math.random() * 100000);
-    const imgSource = `https://www.thiswaifudoesnotexist.net/example-${randomNumber}.jpg`;
-    const handleOptions = () => {
-      if (filename && path) {
-        return `${path}/${filename}.png`
-      }
-      else if (filename && !path) {
-        return `${filename}.png`
-      }
-      else if (!filename && path) {
-        return `${path}/${randomNumber}_${uuidv4()}.png`
-      }
-      else {
-        return `${randomNumber}_${uuidv4()}.png`
-      }
-    };
-    // Mosaic mode
-    if (options) {
-      if (options.mosaic) {
-        return mosaic({
-          ...options,
-          pathOpts: handleOptions(),
-          number: options.mosaic.number,
-          mergeImgOpts: options.mosaic.options,
-        })
-          .then(res => {
-            resolve(res)
-          })
-          .catch(e => reject(e))
-      }
-    }
-    // Standard mode
-    return https.get(imgSource, async (res) => {
-      if (skipFs) {
-        // no call to filesystem; disregard other options
-        res.setEncoding("base64")
-        let response = '';
-        res.on("error", (e) => reject(e));
-        res.on("data", (d) => response += d)
-        res.on("end", () => resolve(`${withoutPrefix ? "" : "data:image/png;base64,"}${response}`))
-      }
+	new Promise((resolve, reject) => {
+		const { filename = null, path = null, skipFs = false, withoutPrefix = false } = { ...options };
+		const randomNumber = Math.floor(Math.random() * 100000);
+		const v2 = Math.floor(Math.random() * 2);
+		const imgSource = `https://www.thiswaifudoesnotexist.net/${v2 ? "v2/" : ""}example-${randomNumber}.jpg`;
+		console.log("imgSource : ", imgSource)
+		const handleOptions = () => {
+			if (filename && path) {
+				return `${path}/${filename}.png`
+			}
+			else if (filename && !path) {
+				return `${filename}.png`
+			}
+			else if (!filename && path) {
+				return `${path}/${randomNumber}_${uuidv4()}.png`
+			}
+			else {
+				return `${randomNumber}_${uuidv4()}.png`
+			}
+		};
+		// Mosaic mode
+		if (options) {
+			if (options.mosaic) {
+				return mosaic({
+					...options,
+					pathOpts: handleOptions(),
+					number: options.mosaic.number,
+					mergeImgOpts: options.mosaic.options,
+				})
+					.then(res => {
+						resolve(res)
+					})
+					.catch(e => reject(e))
+			}
+			if (options.weightInMbs) {
+				const requestedFileSize = typeof options.weightInMbs === "number" ? options.weightInMbs : 32.1;
+				return macrophilia({
+					...options,
+					pathOpts: handleOptions(),
+					requestedFileSize,
+					imgSource,
+				})
+			}
+		}
+		// Standard mode
+		return https.get(imgSource, async (res) => {
+			if (skipFs) {
+				// no call to filesystem; disregard other options
+				res.setEncoding("base64")
+				let response = '';
+				res.on("error", (e) => reject(e));
+				res.on("data", (d) => response += d)
+				if (!skipFs) {
+					res.pipe(fs.createWriteStream(pathOpts));
+				}
+				res.on("end", () => resolve(`${withoutPrefix ? "" : "data:image/png;base64,"}${response}`))
+			}
 
-      else {
-        // standard behaviour using fs; need to handle options
-        const options = handleOptions();
-        res.on("error", (e) => reject(e));
-        res.pipe(fs.createWriteStream(options));
-        res.on("end", async () => {
-          const base64str = await fs.promises.readFile(`./${options}`, { encoding: "base64" })
-          return resolve(`${withoutPrefix ? "" : "data:image/png;base64,"}${base64str}`)
-        }
-        );
-      };
-    });
-  });
+		})
+	});
 
 module.exports = generateWaifu;
