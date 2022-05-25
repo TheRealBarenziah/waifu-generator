@@ -136,6 +136,8 @@ waifuGenerator({
 ```  
 <p align="center">
   <i>What do you mean by "thiqq"?</i>
+</p>
+<p align="center">
 ![What you mean by thiqq?](https://www.thiswaifudoesnotexist.net/example-26648.jpg)  
 </p>
 
