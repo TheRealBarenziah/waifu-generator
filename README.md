@@ -111,6 +111,7 @@ waifuGenerator({
   mosaic: {
     number: 3, // mandatory; must be integer in 1-99 range
     options: { // facultative merge-img option object
+		  // one use of this is to generate near-infinite different (in a shasum perspective) files 
       direction: true,
       color: 0x000000
     }
@@ -121,7 +122,7 @@ waifuGenerator({
   <img width="700" src="https://i.ibb.co/kMc3ZNM/66579-a5581238-2f1d-4221-96f2-ea38a3aa100f.png">
 </p>
 
-# Macrophilia
+# Macrophilia (big files)
 Available from 3.0.0 onward. Incompatible with `mosaic`. Opt-in by defining `option.macrophilia`:  
 ```javascript
 const waifuGenerator = require("./index")
@@ -129,8 +130,8 @@ const waifuGenerator = require("./index")
 waifuGenerator({
   filename: "33mb_girl", // indeed compatible with other waifu-generator options
     macrophilia: {
-    eight: 5742, // The height of the waifu (which is always a square)
-    thiqq: false // Toggle to add some meat to the waifu (increases png quality & reduces compression)
+    height: 5742, // The height of the waifu (which is always a square)
+    thiqq: false // Add some meat to the waifu (increases png quality & reduces compression)
     }
   }
 })
@@ -147,5 +148,5 @@ Take advantage of this module being unlicensed: please fork away and write the b
 # BTW
 Please don't read this seriously. This JavaScript does little more than exploiting the awesome work that was done on [thiswaifudoesnotexist](https://www.thiswaifudoesnotexist.net) and [thisanimedoesnotexist](https://thisanimedoesnotexist.ai/), so please pay them a visit :) 
   
-  
-[CHANGELOG][https://github.com/TheRealBarenziah/waifu-generator/blob/master/CHANGELOG.md]
+## Changelog
+[CHANGELOG](https://github.com/TheRealBarenziah/waifu-generator/blob/master/CHANGELOG.md)
