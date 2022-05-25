@@ -30,7 +30,8 @@ npm i --save-dev waifu-generator
 - `options.path` default to null 
 - `options.skipFs` default to false; pass `true` to skip the fs.createWriteStream() call
 - `options.withoutPrefix` default to false; pass `true` to remove 'data:image/png;base64,' prefix from returned string
-- `options.mosaic` default to null; enable to create a mosaic of waifus. [Infos here](#Mosaic)
+- `options.mosaic` default to null; **enable to create a mosaic of waifus.** [Infos here](#Mosaic)
+- `options.macrophilia` default to null; **enable to quickly create big files.** [Infos here](#Macrophilia)
 
 ## The Long Read
 
@@ -47,9 +48,7 @@ Back in terminal (for the example):
 ```bash
 node ./generate.js
 # ...will write a random image file in cwd (current working directory).
-# The filename will follow the pattern "$imageId_$uuid.png",
-#     where $imageId is the image id for thiswaifudoesnotexist.net,
-#     and $uuid some uuidv4 generated on the fly
+# The filename will follow the pattern "$imageId_$uuid.png"
 
 data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=
 
@@ -82,7 +81,6 @@ node ./generate.js
 ### Case 2.5: skip the fs call
 Sometimes, you don't want your tests to do I/O operations (typically when you're after performance). In that case you can skip the filesystem call entierely, leaving you to work with pure base64 strings:  
   
-Barebone example:  
 ```javascript
 const generateWaifu = require("waifu-generator");
 
@@ -110,8 +108,8 @@ waifuGenerator({
   filename: "mosaic", // indeed compatible with other waifu-generator options
   mosaic: {
     number: 3, // mandatory; must be integer in 1-99 range
-    options: { // facultative merge-img option object
-		  // one use of this is to generate near-infinite different (in a shasum perspective) files 
+    options: { /* facultative merge-img option object
+      one usecase is to generate near-infinite different (from a shasum perspective) files */
       direction: true,
       color: 0x000000
     }
@@ -122,7 +120,7 @@ waifuGenerator({
   <img width="700" src="https://i.ibb.co/kMc3ZNM/66579-a5581238-2f1d-4221-96f2-ea38a3aa100f.png">
 </p>
 
-# Macrophilia (big files)
+# Macrophilia
 Available from 3.0.0 onward. Incompatible with `mosaic`. Opt-in by defining `option.macrophilia`:  
 ```javascript
 const waifuGenerator = require("./index")
@@ -136,7 +134,7 @@ waifuGenerator({
   }
 })
 ```  
-
+![What you mean by thiqq?](https://www.thiswaifudoesnotexist.net/example-26648.jpg)  
 
 # Clean your mess
 This module doesn't support file deletion. To do that, it's your responsibility, as a developer, to chose the correct approach between using the awesome [fs API](https://nodejs.org/api/fs.html#fspromisesunlinkpath), using [higher level libs](https://www.npmjs.com/package/rimraf), or going for [OS level operation](https://linux.die.net/man/1/rm).  
