@@ -42,7 +42,7 @@ const mosaic = async ({ pathOpts, skipFs, withoutPrefix, number, mergeImgOpts = 
 				}
 				// asyncGetBuffer: https://github.com/oliver-moran/jimp/issues/90#issuecomment-408650356
 				const getBufferAsync = promisify(img.getBuffer.bind(img));
-				const output = await getBufferAsync(Jimp.MIME_PNG)
+				const output = await getBufferAsync("image/png")
 					.then(buffer => buffer.toString("base64"))
 				return withoutPrefix ? output : `data:image/png;base64,${output}`;
 			})

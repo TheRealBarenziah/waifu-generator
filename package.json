@@ -22,8 +22,7 @@
   "license": "SEE LICENSE IN TARGARYEN_UNLICENSE",
   "dependencies": {
     "merge-img-vwv": "2.1.5-up",
-    "uuid": "8.3.2",
-    "jimp": "0.16.1"
+    "uuid": "8.3.2"
   },
   "homepage": "https://github.com/TheRealBarenziah/waifu-generator#readme",
   "bugs": {
