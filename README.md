@@ -114,7 +114,7 @@ waifuGenerator({
       color: 0x000000
     }
   }
-})
+});
 ```  
 <p align="center">
   <img width="700" src="https://i.ibb.co/kMc3ZNM/66579-a5581238-2f1d-4221-96f2-ea38a3aa100f.png">
@@ -128,15 +128,15 @@ const waifuGenerator = require("./index")
 waifuGenerator({
   filename: "33mb_girl", // indeed compatible with other waifu-generator options
     macrophilia: {
-    height: 5742, // The height of the waifu (which is always a square)
-    thiqq: false // Add some meat to the waifu (increases png quality & reduces compression)
+      height: 5742, // The height of the waifu (which is always a square)
+      thiqq: false // Add some meat to the waifu (increases png quality & reduces compression)
     }
   }
-})
+});
 ```  
 
 <p align="center">
-  <i>What do you mean by "thiqq"?</i>
+  <i>What do you mean by 'thiqq' ??</i>
   <img src="https://www.thiswaifudoesnotexist.net/example-26648.jpg">  
 </p>
 
