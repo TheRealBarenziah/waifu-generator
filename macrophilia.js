@@ -1,22 +1,16 @@
-const https = require('https');
 const fs = require('fs');
+const httpsGet = require('./httpsGet');
 
-const mosaic = async ({ pathOpts, skipFs, withoutPrefix, weightInMbs, imgSource }) => {
-
-	return https.get(imgSource, async (res) => {
-		if (skipFs) {
-			// no call to filesystem; disregard other options
-			res.setEncoding("base64")
-			let response = '';
-			res.on("error", (e) => reject(e));
-			res.on("data", (d) => response += d)
-			if (!skipFs) {
-				res.pipe(fs.createWriteStream(pathOpts));
-			}
-			res.on("end", () => resolve(`${withoutPrefix ? "" : "data:image/png;base64,"}${response}`))
-		}
-
+const macrophilia = async ({ pathOpts, skipFs, withoutPrefix, weightInMbs, imgSource }) =>
+	new Promise((resolve, reject) => {
+		const image = httpsGet({
+			imgSource,
+			pathOpts,
+			withoutPrefix,
+			skipFs,
+		})
+		resolve(image)
 	})
-}
 
-module.exports = mosaic;
+
+module.exports = macrophilia;

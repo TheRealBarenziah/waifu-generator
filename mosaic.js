@@ -1,6 +1,7 @@
 const mergeImages = require('merge-img-vwv');
-const https = require('https');
 const Jimp = require('jimp');
+const httpsGet = require('./httpsGet');
+const { randomizeImgUrl, randomizeHost } = require('./randomizeImgUrl');
 const promisify = require("util").promisify;
 
 const mosaic = async ({ pathOpts, skipFs, withoutPrefix, number, mergeImgOpts = {
@@ -17,19 +18,19 @@ const mosaic = async ({ pathOpts, skipFs, withoutPrefix, number, mergeImgOpts = 
 		throw Error("options.mosaic.number value must be in the 1-99 range !")
 	}
 
+	// Host must be consistent to have a pretty mosaic
+	const hostname = randomizeHost()
+
 	const promQueens = [];
 
 	for (let i = 0; i < number; i++) {
-		const imgSource = `https://www.thiswaifudoesnotexist.net/example-${Math.floor(Math.random() * 100000)
-			}.jpg`;
-		const generate = () => new Promise((resolve, reject) => https.get(imgSource, (res) => {
-			res.setEncoding("base64")
-			let response = '';
-			res.on("error", (e) => reject(e));
-			res.on("data", (d) => response += d)
-			res.on("end", () => resolve(response))
-		}))
-		promQueens.push(generate())
+		promQueens.push(
+			httpsGet({
+				imgSource: randomizeImgUrl(hostname),
+				skipFs: true,
+				withoutPrefix: true,
+			})
+		)
 	}
 
 	return Promise.all(promQueens)

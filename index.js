@@ -3,6 +3,8 @@ const fs = require('fs');
 const uuidv4 = require("uuid").v4;
 const mosaic = require('./mosaic');
 const macrophilia = require('./macrophilia');
+const { randomizeImgUrl, randomizeHost } = require('./randomizeImgUrl');
+const httpsGet = require('./httpsGet');
 
 /**
  * @description
@@ -25,11 +27,15 @@ const macrophilia = require('./macrophilia');
 
 const generateWaifu = async (options) =>
 	new Promise((resolve, reject) => {
-		const { filename = null, path = null, skipFs = false, withoutPrefix = false } = { ...options };
-		const randomNumber = Math.floor(Math.random() * 100000);
-		const v2 = Math.floor(Math.random() * 2);
-		const imgSource = `https://www.thiswaifudoesnotexist.net/${v2 ? "v2/" : ""}example-${randomNumber}.jpg`;
-		console.log("imgSource : ", imgSource)
+		const {
+			filename = null,
+			path = null,
+			skipFs = false,
+			withoutPrefix = false,
+		} = { ...options };
+		const hostname = randomizeHost();
+		const imgSource = randomizeImgUrl(hostname)
+
 		const handleOptions = () => {
 			if (filename && path) {
 				return `${path}/${filename}.png`
@@ -38,18 +44,22 @@ const generateWaifu = async (options) =>
 				return `${filename}.png`
 			}
 			else if (!filename && path) {
-				return `${path}/${randomNumber}_${uuidv4()}.png`
+				return `${path}/${imgSource.id}_${uuidv4()}.png`
 			}
 			else {
-				return `${randomNumber}_${uuidv4()}.png`
+				return `${imgSource.id}_${uuidv4()}.png`
 			}
 		};
+
+		const pathOpts = handleOptions();
+
 		// Mosaic mode
 		if (options) {
 			if (options.mosaic) {
 				return mosaic({
 					...options,
-					pathOpts: handleOptions(),
+					pathOpts,
+					hostname,
 					number: options.mosaic.number,
 					mergeImgOpts: options.mosaic.options,
 				})
@@ -62,26 +72,17 @@ const generateWaifu = async (options) =>
 				const requestedFileSize = typeof options.weightInMbs === "number" ? options.weightInMbs : 32.1;
 				return macrophilia({
 					...options,
-					pathOpts: handleOptions(),
-					requestedFileSize,
+					pathOpts,
 					imgSource,
+					weightInMbs: requestedFileSize,
 				})
 			}
 		}
 		// Standard mode
-		return https.get(imgSource, async (res) => {
-			if (skipFs) {
-				// no call to filesystem; disregard other options
-				res.setEncoding("base64")
-				let response = '';
-				res.on("error", (e) => reject(e));
-				res.on("data", (d) => response += d)
-				if (!skipFs) {
-					res.pipe(fs.createWriteStream(pathOpts));
-				}
-				res.on("end", () => resolve(`${withoutPrefix ? "" : "data:image/png;base64,"}${response}`))
-			}
-
+		return httpsGet({
+			...options,
+			pathOpts,
+			imgSource,
 		})
 	});
 
