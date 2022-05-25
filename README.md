@@ -5,11 +5,10 @@
   </a>
 </p>
 <p align="center">
-Write random anime girl pictures on file system, using Nodejs, thanks to <a href="https://www.thiswaifudoesnotexist.net">thiswaifudoesnotexist.net</a>
+Write random anime girl pictures on file system, using Nodejs, thanks to <a href="https://www.thiswaifudoesnotexist.net">thiswaifudoesnotexist.net</a> and <a href="https://thisanimedoesnotexist.ai/">thisanimedoesnotexist.ai</a>
 </p>  
 
 [![https://nodei.co/npm/waifu-generator.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/waifu-generator.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/waifu-generator)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Known Vulnerabilities](https://snyk.io/test/github/TheRealBarenziah/waifu-generator/badge.svg?targetFile=package.json)](https://snyk.io/test/github/TheRealBarenziah/waifu-generator?targetFile=package.json)
 
 # Usecase ?
@@ -81,7 +80,7 @@ node ./generate.js
 ```  
 
 ### Case 2.5: skip the fs call
-Sometimes, you don't want your tests to do I/O operations (typically when you're after performance). In that case you can skip the filesystem call entierely, leaving you to work with pure base64 strings, ready to be allocated.  
+Sometimes, you don't want your tests to do I/O operations (typically when you're after performance). In that case you can skip the filesystem call entierely, leaving you to work with pure base64 strings:  
   
 Barebone example:  
 ```javascript
@@ -103,15 +102,14 @@ yourCustomFunc();
 **NB: Activating `skipFs` will indeed make the path/filename options irrelevant !**  
 
 # Mosaic
-Available from 2.0.0 onward. Opt-in by defining `option.mosaic`:
-#### tl;dr
+Available from 2.0.0 onward. Incompatible with `macrophilia`. Opt-in by defining `option.mosaic`:
 ```javascript
 const waifuGenerator = require("./index")
 
 waifuGenerator({
   filename: "mosaic", // indeed compatible with other waifu-generator options
   mosaic: {
-    number: 2, // mandatory; must be integer in 1-99 range
+    number: 3, // mandatory; must be integer in 1-99 range
     options: { // facultative merge-img option object
       direction: true,
       color: 0x000000
@@ -119,28 +117,35 @@ waifuGenerator({
   }
 })
 ```  
-#### Full story
-Made this a major release because it adds some bloat ([jimp](https://www.npmjs.com/package/jimp) + [merge-img](https://www.npmjs.com/package/merge-img) dependencies).  
-If you don't need this feature, you better stick to good ol' [1.1.1](https://www.npmjs.com/package/waifu-generator/v/1.1.1)  
-###### So why this update ?
-Initial pool of images being only 100000, there was a chance to get duplicates.  
-Also, I needed to be able to generate some FAT files (>32Mb and >64Mb) for my test suite.  
-This option will generate a mosaic of waifus so the possibilities becomes `100000` * `a lot`.  
-The `option.mosaic.number` param is **mandatory** and must be in the 1-99 range.  
-The `option.mosaic.options` is **optional**: it enable you to use [merge-img option object](https://www.npmjs.com/package/merge-img#mergeimgimages-options) in case you need it.  
-With this the possibilities becomes `100000` * `a lot` * `A LOT`.  
-I know math, you can twust this number owo. Example output with `mosaic.number = 3`:  
-
 <p align="center">
   <img width="700" src="https://i.ibb.co/kMc3ZNM/66579-a5581238-2f1d-4221-96f2-ea38a3aa100f.png">
 </p>
 
+# Macrophilia
+Available from 3.0.0 onward. Incompatible with `mosaic`. Opt-in by defining `option.macrophilia`:  
+```javascript
+const waifuGenerator = require("./index")
+
+waifuGenerator({
+  filename: "33mb_girl", // indeed compatible with other waifu-generator options
+		macrophilia: {
+		height: 5742, // The height of the waifu (which is always a square)
+		thiqq: false // Toggle to add some meat to the waifu (by increasing png quality & reducing compression)
+		}
+  }
+})
+```  
+
+
 # Clean your mess
-This (somewhat) unbloated module doesn't support file deletion. To do that, it's your responsibility, as a developer, to chose the correct approach between using the awesome [fs API](https://www.geeksforgeeks.org/node-js-fs-unlink-method/), using [higher level libs](https://www.npmjs.com/package/rimraf), or going for [OS level operation](https://linux.die.net/man/1/rm).  
+This module doesn't support file deletion. To do that, it's your responsibility, as a developer, to chose the correct approach between using the awesome [fs API](https://nodejs.org/api/fs.html#fspromisesunlinkpath), using [higher level libs](https://www.npmjs.com/package/rimraf), or going for [OS level operation](https://linux.die.net/man/1/rm).  
 
 ..Of course you're also free to skip the hassle by using the `skipFs` parameter !  
 
 Take advantage of this module being unlicensed: please fork away and write the best solution for your specific need :)
 
 # BTW
-Please don't read this seriously. This JavaScript does little more than exploiting the awesome work that was done on [thiswaifudoesnotexist](https://www.thiswaifudoesnotexist.net), so please pay them a visit and click their footer links :)  
+Please don't read this seriously. This JavaScript does little more than exploiting the awesome work that was done on [thiswaifudoesnotexist](https://www.thiswaifudoesnotexist.net) and [thisanimedoesnotexist](https://thisanimedoesnotexist.ai/), so please pay them a visit :) 
+  
+  
+[CHANGELOG][https://github.com/TheRealBarenziah/waifu-generator/blob/master/CHANGELOG.md]

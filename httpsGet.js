@@ -30,9 +30,7 @@ module.exports = ({
 			res.on("data", (d) => response += d)
 			if (!skipFs) {
 				res.pipe(
-					fs.createWriteStream(
-						pathOpts, "base64"
-					)
+					fs.createWriteStream(pathOpts, "base64")
 				);
 			}
 			res.on("end", () =>

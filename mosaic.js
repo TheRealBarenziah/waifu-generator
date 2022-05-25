@@ -18,8 +18,8 @@ const mosaic = async ({ pathOpts, skipFs, withoutPrefix, number, mergeImgOpts = 
 		throw Error("options.mosaic.number value must be in the 1-99 range !")
 	}
 
-	// Host must be consistent to have a pretty mosaic
-	const hostname = randomizeHost()
+	// Host must be consistent, else the mosaic will be ugly
+	const hostname = randomizeHost();
 
 	const promQueens = [];
 
