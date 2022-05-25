@@ -128,10 +128,10 @@ const waifuGenerator = require("./index")
 
 waifuGenerator({
   filename: "33mb_girl", // indeed compatible with other waifu-generator options
-		macrophilia: {
-		height: 5742, // The height of the waifu (which is always a square)
-		thiqq: false // Toggle to add some meat to the waifu (by increasing png quality & reducing compression)
-		}
+    macrophilia: {
+    eight: 5742, // The height of the waifu (which is always a square)
+    thiqq: false // Toggle to add some meat to the waifu (increases png quality & reduces compression)
+    }
   }
 })
 ```  

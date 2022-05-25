@@ -1,7 +1,7 @@
 {
   "name": "waifu-generator",
-  "version": "2.0.4",
-  "description": "Scrap random anime girls from thiswaifudoesnotexist.net",
+  "version": "3.0.0",
+  "description": "Get random anime girls as files or base64 strings",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
