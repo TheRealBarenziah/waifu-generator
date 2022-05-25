@@ -134,7 +134,10 @@ waifuGenerator({
   }
 })
 ```  
+<p align="center">
+  <i>What do you mean by "thiqq"?</i>
 ![What you mean by thiqq?](https://www.thiswaifudoesnotexist.net/example-26648.jpg)  
+</p>
 
 # Clean your mess
 This module doesn't support file deletion. To do that, it's your responsibility, as a developer, to chose the correct approach between using the awesome [fs API](https://nodejs.org/api/fs.html#fspromisesunlinkpath), using [higher level libs](https://www.npmjs.com/package/rimraf), or going for [OS level operation](https://linux.die.net/man/1/rm).  
